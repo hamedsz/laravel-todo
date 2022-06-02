@@ -1,0 +1,24 @@
+{
+    "name": "hamedsz/todo-app",
+    "authors": [
+        {
+            "name": "hamedsz",
+            "email": "badmansog@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "orchestra/testbench": "5.x",
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "TodoApp\\": "./src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TodoApp\\Tests\\": "./tests/"
+        }
+    }
+}
