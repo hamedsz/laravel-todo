@@ -30,4 +30,12 @@ class TaskBuilder extends BaseBuilder implements TaskBuilderInterface
 
         return $this;
     }
+
+    public function includeLabels($labels=false) : TaskBuilderInterface{
+        if ($labels){
+            $this->model->with('labels');
+        }
+
+        return $this;
+    }
 }

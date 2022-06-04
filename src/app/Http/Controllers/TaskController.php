@@ -21,6 +21,7 @@ class TaskController
             ->service
             ->builder()
             ->user(auth()->user()->id)
+            ->includeLabels($request->include_labels)
             ->labels($request->labels)
             ->page($request->page);
 
