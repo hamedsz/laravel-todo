@@ -29,4 +29,10 @@ class TaskController
             $builder->get()
         );
     }
+
+    public function show($id){
+        $task = $this->service->find($id);
+
+        return response()->json($task);
+    }
 }
