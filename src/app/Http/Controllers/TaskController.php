@@ -3,6 +3,7 @@
 namespace TodoApp\app\Http\Controllers;
 
 use Illuminate\Http\Request;
+use TodoApp\app\Http\Requests\IndexTaskRequest;
 use TodoApp\app\Services\TaskInterface;
 
 class TaskController
@@ -15,7 +16,7 @@ class TaskController
     }
 
 
-    public function index(Request $request){
+    public function index(IndexTaskRequest $request){
         $builder = $this
             ->service
             ->builder()
