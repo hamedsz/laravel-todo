@@ -25,6 +25,7 @@ class IndexTaskRequest extends FormRequest
     {
         return [
             'page' => 'numeric',
+            'include_labels' => 'boolean',
             'labels' => 'array',
             'labels.*' => 'numeric',
         ];
