@@ -29,4 +29,12 @@ class TaskShowTest extends TestCase
 
         $response->assertStatus(403);
     }
+
+    public function testNotFoundTask(){
+        $this->auth();
+
+        $response = $this->json('GET', '/api/v1/todo/tasks/'. 22);
+
+        $response->assertStatus(404);
+    }
 }
