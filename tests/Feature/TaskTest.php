@@ -140,7 +140,9 @@ class TaskTest extends \TodoApp\Tests\TestCase
         $tasks[0]->labels()->sync([$label->id], false);
 
         $response = $this->json('GET', '/api/v1/todo/tasks', [
-            'labels[]' => $label->id
+            'labels' => [
+                $label->id
+            ]
         ]);
 
         $response

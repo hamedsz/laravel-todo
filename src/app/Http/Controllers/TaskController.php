@@ -20,6 +20,7 @@ class TaskController
             ->service
             ->builder()
             ->user(auth()->user()->id)
+            ->labels($request->labels)
             ->page($request->page);
 
         return response()->json(
