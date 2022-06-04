@@ -2,32 +2,13 @@
 
 use TodoApp\app\Models\Task;
 
-class TaskTest extends \TodoApp\Tests\TestCase
+class IndexTaskTest extends \TodoApp\Tests\TestCase
 {
     const PAGE_COUNT = 25;
 
     private function getListTasksResponse()
     {
         return $this->get('/api/v1/todo/tasks');
-    }
-
-    public function testIndexTasksWithNoData()
-    {
-        $this->auth();
-
-        $response = $this->getListTasksResponse();
-
-        $response
-            ->assertStatus(200)
-            ->assertJson([
-                "current_page" => 1,
-                'from' => null,
-                'last_page' => 1,
-                'per_page' => self::PAGE_COUNT,
-                'to' => null,
-                'total' => 0,
-                'data' => []
-            ]);
     }
 
     private function createFakeTask($userId=null)
@@ -49,7 +30,26 @@ class TaskTest extends \TodoApp\Tests\TestCase
         return $tasks;
     }
 
-    public function testIndexTasksWithOnePageData()
+    public function testWithNoData()
+    {
+        $this->auth();
+
+        $response = $this->getListTasksResponse();
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                "current_page" => 1,
+                'from' => null,
+                'last_page' => 1,
+                'per_page' => self::PAGE_COUNT,
+                'to' => null,
+                'total' => 0,
+                'data' => []
+            ]);
+    }
+
+    public function testWithOnePageData()
     {
         $this->auth();
         $tasks = $this->createFakeTasks(1);
@@ -68,7 +68,7 @@ class TaskTest extends \TodoApp\Tests\TestCase
             ]);
     }
 
-    public function testIndexTasksWithMultiplePageData()
+    public function testWithMultiplePageData()
     {
         $this->auth();
         $tasks = $this->createFakeTasks(30);
@@ -87,7 +87,7 @@ class TaskTest extends \TodoApp\Tests\TestCase
             ]);
     }
 
-    public function testIndexTasksWithMultiplePageDataSecondPage()
+    public function testWithMultiplePageDataSecondPage()
     {
         $this->auth();
         $tasks = $this->createFakeTasks(30);
@@ -109,7 +109,7 @@ class TaskTest extends \TodoApp\Tests\TestCase
             ]);
     }
 
-    public function testIndexTasksOnlyAuthenticatedUserTasks(){
+    public function testOnlyAuthenticatedUserTasks(){
         $user1 = $this->createFakeUser();
         $user2 = $this->createFakeUser();
 
@@ -132,7 +132,7 @@ class TaskTest extends \TodoApp\Tests\TestCase
             ]);
     }
 
-    public function testIndexTasksFilterByLabel(){
+    public function testFilterByLabel(){
         $this->auth();
         $tasks = $this->createFakeTasks(5);
 
@@ -158,7 +158,7 @@ class TaskTest extends \TodoApp\Tests\TestCase
             ]);
     }
 
-    public function testIndexTasksParameterValidations(){
+    public function testParameterValidations(){
         $this->auth();
 
         $response = $this->json('GET', '/api/v1/todo/tasks', [
@@ -179,5 +179,31 @@ class TaskTest extends \TodoApp\Tests\TestCase
             ]
         ]);
         $response->assertStatus(422);
+    }
+
+    public function testIncludeLabels(){
+        $this->auth();
+        $tasks = $this->createFakeTasks(5);
+
+        $label = \TodoApp\app\Models\Label::add('test');
+        $tasks[0]->labels()->sync([$label->id], false);
+        $tasks[0]->load('labels');
+
+        $response = $this->json('GET', '/api/v1/todo/tasks', [
+            'include_labels' => true
+        ]);
+
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                "current_page" => 1,
+                'from' => 1,
+                'last_page' => 1,
+                'per_page' => self::PAGE_COUNT,
+                'to' => 5,
+                'total' => 5,
+                'data' => $tasks->toArray()
+            ]);
     }
 }
