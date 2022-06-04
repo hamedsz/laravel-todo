@@ -3,6 +3,7 @@
 namespace TodoApp\app\Http\Controllers;
 
 use Illuminate\Http\Request;
+use TodoApp\app\Http\Requests\AddLabelTaskRequest;
 use TodoApp\app\Http\Requests\CreateTaskRequest;
 use TodoApp\app\Http\Requests\IndexTaskRequest;
 use TodoApp\app\Http\Requests\UpdateTaskRequest;
@@ -71,7 +72,7 @@ class TaskController
         return response()->noContent();
     }
 
-    public function addLabel(Request $request, $id){
+    public function addLabel(AddLabelTaskRequest $request, $id){
         $task = $this->service->find($id, auth()->user());
         $this->service->addLabels($task , $request->labels);
 
