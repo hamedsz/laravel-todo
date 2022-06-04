@@ -31,7 +31,10 @@ class TaskController
     }
 
     public function show($id){
-        $task = $this->service->find($id);
+        $task = $this->service->find(
+            $id,
+            auth()->user()
+        );
 
         return response()->json($task);
     }
