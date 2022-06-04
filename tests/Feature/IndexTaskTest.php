@@ -168,10 +168,14 @@ class IndexTaskTest extends \TodoApp\Tests\TestCase
         $response->assertStatus(422);
 
         $response = $this->json('GET', '/api/v1/todo/tasks', [
-            'labels' => 'aaa'
+            'include_labels' => 'aaa'
         ]);
         $response->assertStatus(422);
 
+        $response = $this->json('GET', '/api/v1/todo/tasks', [
+            'labels' => 'aaa'
+        ]);
+        $response->assertStatus(422);
 
         $response = $this->json('GET', '/api/v1/todo/tasks', [
             'labels' => [
