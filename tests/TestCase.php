@@ -16,7 +16,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->loginWithFakeUser();
     }
 
     protected function getPackageProviders($app)
@@ -31,21 +30,27 @@ class TestCase extends \Orchestra\Testbench\TestCase
         // perform environment setup
     }
 
+    protected function createFakeUser() : User{
+        $user = factory(User::class)->make();
+        $user->save();
+        return $user;
+    }
+
     protected $user;
 
-
-    protected function loginWithFakeUser()
-    {
-        if (!$this->user){
-            $user = new User();
-            $user->id = 1;
-            $user->name = 'hamed';
-            $user->email = 'hamed@mail.com';
-            $user->password = bcrypt('password');
-            $user->save();
-            $this->user = $user;
+    protected function auth(User $user=null){
+        if (!$user){
+            if (!$this->user){
+                $user = $this->createFakeUser();
+                $this->user = $user;
+            }
+            else{
+                $user = $this->user;
+            }
         }
 
-        $this->be($this->user);
+        $this->defaultHeaders = [
+            'Authorization' => 'Bearer '. $user->getAuthToken()
+        ];
     }
 }

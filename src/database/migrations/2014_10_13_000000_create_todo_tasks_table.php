@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateTodoTasksTable extends Migration
@@ -39,6 +40,8 @@ class CreateTodoTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('todo_users');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('todo_tasks');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
