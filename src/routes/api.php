@@ -16,6 +16,7 @@ Route::group(['prefix' => '/api/v1/todo'], function (){
         Route::apiResource('/labels', \TodoApp\app\Http\Controllers\LabelController::class);
 
         Route::put('/tasks/{id}/update-status', [\TodoApp\app\Http\Controllers\TaskController::class, 'updateStatus']);
+        Route::put('/tasks/{id}/add-label', [\TodoApp\app\Http\Controllers\TaskController::class, 'addLabel']);
     });
 });
 

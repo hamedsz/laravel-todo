@@ -22,6 +22,6 @@ class TaskAddLabelTest extends TestCase
 
         $this->assertEquals($task->labels()->count(), 2);
         $this->assertEquals($task->labels[0]->label, 'china');
-        $this->assertEquals($task->labels[1]->label, 'china');
+        $this->assertEquals($task->labels[1]->label, 'usa');
     }
 }

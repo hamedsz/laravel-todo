@@ -70,4 +70,11 @@ class TaskController
 
         return response()->noContent();
     }
+
+    public function addLabel(Request $request, $id){
+        $task = $this->service->find($id, auth()->user());
+        $this->service->addLabels($task , $request->labels);
+
+        return response()->noContent();
+    }
 }
