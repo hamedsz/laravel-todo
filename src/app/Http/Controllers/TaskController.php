@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use TodoApp\app\Http\Requests\CreateTaskRequest;
 use TodoApp\app\Http\Requests\IndexTaskRequest;
 use TodoApp\app\Http\Requests\UpdateTaskRequest;
+use TodoApp\app\Http\Requests\UpdateTaskStatusRequest;
 use TodoApp\app\Services\TaskInterface;
 
 class TaskController
@@ -60,7 +61,7 @@ class TaskController
         return response()->noContent();
     }
 
-    public function updateStatus(Request $request, $id){
+    public function updateStatus(UpdateTaskStatusRequest $request, $id){
         $this->service->updateStatus(
             $id,
             $request->status,
