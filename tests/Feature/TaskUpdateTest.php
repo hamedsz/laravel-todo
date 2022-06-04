@@ -24,4 +24,26 @@ class TaskUpdateTest extends TestCase
         $this->assertEquals($task->title, $newTaskData['title']);
         $this->assertEquals($task->description, $newTaskData['description']);
     }
+
+    public function testUpdateTaskValidations(){
+        $this->auth();
+        $task = $this->createFakeTask();
+
+        $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id, [
+            'title' => 111,
+            'description' => 'hamed',
+        ]);
+        $response->assertStatus(422);
+
+        $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id, [
+            'title' => '111',
+            'description' => 111,
+        ]);
+        $response->assertStatus(422);
+
+        $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id, [
+            'description' => 'aaa',
+        ]);
+        $response->assertStatus(422);
+    }
 }
