@@ -1,33 +1,16 @@
 <?php
 
-use TodoApp\app\Models\Task;
+namespace TodoApp\Tests\Feature;
 
-class IndexTaskTest extends \TodoApp\Tests\TestCase
+use TodoApp\Tests\TestCase;
+
+class IndexTaskTest extends TestCase
 {
     const PAGE_COUNT = 25;
 
     private function getListTasksResponse()
     {
         return $this->get('/api/v1/todo/tasks');
-    }
-
-    private function createFakeTask($userId=null)
-    {
-        $task = factory(Task::class)->make();
-        $task->user_id = $userId ?? $this->user->id;
-        $task->save();
-
-        return $task;
-    }
-
-    private function createFakeTasks($num, $userId=null)
-    {
-        $tasks = collect();
-        for ($i = 0; $i < $num; $i++) {
-            $task = $this->createFakeTask($userId);
-            $tasks->add($task);
-        }
-        return $tasks;
     }
 
     public function testWithNoData()
