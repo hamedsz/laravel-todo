@@ -17,4 +17,8 @@ class User extends Authenticatable
             'id' => $this->id
         ]);
     }
+
+    public function labels(){
+        return $this->belongsToMany(Label::class, 'todo_label_user', 'user_id', 'label_id');
+    }
 }

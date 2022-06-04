@@ -4,13 +4,7 @@ use TodoApp\app\Models\Task;
 
 class TaskTest extends \TodoApp\Tests\TestCase
 {
-
     const PAGE_COUNT = 25;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
 
     private function getListTasksResponse()
     {
@@ -38,10 +32,7 @@ class TaskTest extends \TodoApp\Tests\TestCase
 
     private function createFakeTask($userId=null)
     {
-        $task = new Task();
-        $task->title = 'abcd';
-        $task->description = 'abcdefg';
-        $task->status = Task::STATUS_TASK_OPEN;
+        $task = factory(Task::class)->make();
         $task->user_id = $userId ?? $this->user->id;
         $task->save();
 
@@ -138,6 +129,30 @@ class TaskTest extends \TodoApp\Tests\TestCase
                 'to' => 5,
                 'total' => $user1Tasks->count(),
                 'data' => $user1Tasks->toArray()
+            ]);
+    }
+
+    public function testIndexTasksFilterByLabel(){
+        $this->auth();
+        $tasks = $this->createFakeTasks(5);
+
+        $label = \TodoApp\app\Models\Label::add('test');
+        $tasks[0]->labels()->sync([$label->id], false);
+
+        $response = $this->json('GET', '/api/v1/todo/tasks', [
+            'labels[]' => $label->id
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                "current_page" => 1,
+                'from' => 1,
+                'last_page' => 1,
+                'per_page' => self::PAGE_COUNT,
+                'to' => 1,
+                'total' => 1,
+                'data' => [$tasks[0]]
             ]);
     }
 }
