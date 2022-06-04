@@ -59,4 +59,14 @@ class TaskController
 
         return response()->noContent();
     }
+
+    public function updateStatus(Request $request, $id){
+        $this->service->updateStatus(
+            $id,
+            $request->status,
+            auth()->user()
+        );
+
+        return response()->noContent();
+    }
 }

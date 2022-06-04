@@ -13,4 +13,5 @@ interface TaskInterface
     public function create(array $data, User $user) : Task;
     public function addLabels(Task $task, array $labels);
     public function update(int $taskId, array $data, User $user);
+    public function updateStatus(int $taskId, string $status, User $user);
 }
