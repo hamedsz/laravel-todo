@@ -20,4 +20,17 @@ class TaskUpdateStatusTest extends TestCase
         $task = Task::find($task->id);
         $this->assertEquals($task->status, Task::STATUS_TASK_CLOSE);
     }
+
+    public function testTaskUpdateStatusValidation(){
+        $this->auth();
+        $task = $this->createFakeTask();
+
+        $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id . '/update-status', [
+            'status' => 'aa'
+        ]);
+        $response->assertStatus(422);
+
+        $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id . '/update-status');
+        $response->assertStatus(422);
+    }
 }
