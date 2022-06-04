@@ -5,6 +5,7 @@ namespace TodoApp\app\Http\Controllers;
 use Illuminate\Http\Request;
 use TodoApp\app\Http\Requests\CreateTaskRequest;
 use TodoApp\app\Http\Requests\IndexTaskRequest;
+use TodoApp\app\Http\Requests\UpdateTaskRequest;
 use TodoApp\app\Services\TaskInterface;
 
 class TaskController
@@ -49,7 +50,7 @@ class TaskController
         return response()->noContent();
     }
 
-    public function update(Request $request, $id){
+    public function update(UpdateTaskRequest $request, $id){
         $this->service->update(
             $id,
             $request->all(),
