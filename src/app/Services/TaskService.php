@@ -43,4 +43,10 @@ class TaskService implements TaskInterface
 
         return $task;
     }
+
+    public function update(int $taskId, array $data, User $user){
+        $user = $this->find($taskId, $user);
+        $user->fill($data);
+        $user->save();
+    }
 }
