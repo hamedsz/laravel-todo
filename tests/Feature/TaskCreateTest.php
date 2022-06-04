@@ -32,4 +32,49 @@ class TaskCreateTest extends TestCase
         $this->assertEquals($task->labels[0]->label, 'hamed');
         $this->assertEquals($task->labels[1]->label, 'sz');
     }
+
+    public function testCreateTaskValidations(){
+        $this->auth();
+
+        //required title
+        $response = $this->json('POST', '/api/v1/todo/tasks/', [
+            'description' => 'hi',
+            'labels' => [
+                'hamed',
+                'sz'
+            ]
+        ]);
+        $response->assertStatus(422);
+
+
+        //title type
+        $response = $this->json('POST', '/api/v1/todo/tasks/', [
+            'title' => 11,
+            'description' => 'hi',
+            'labels' => [
+                'hamed',
+                'sz'
+            ]
+        ]);
+        $response->assertStatus(422);
+
+        //desc type
+        $response = $this->json('POST', '/api/v1/todo/tasks/', [
+            'title' => 'aaaa',
+            'description' => 111,
+            'labels' => [
+                'hamed',
+                'sz'
+            ]
+        ]);
+        $response->assertStatus(422);
+
+        //labels type
+        $response = $this->json('POST', '/api/v1/todo/tasks/', [
+            'title' => 'aaaa',
+            'description' => 111,
+            'labels' => 'aaaa'
+        ]);
+        $response->assertStatus(422);
+    }
 }
