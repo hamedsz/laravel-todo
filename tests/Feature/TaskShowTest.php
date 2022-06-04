@@ -18,4 +18,15 @@ class TaskShowTest extends TestCase
                 $task->toArray()
             );
     }
+
+    public function testCanUserAccessOtherUsersTasks(){
+        $this->auth();
+
+        $otherUser = $this->createFakeUser();
+        $otherUserTask = $this->createFakeTask($otherUser->id);
+
+        $response = $this->json('GET', '/api/v1/todo/tasks/'. $otherUserTask->id);
+
+        $response->assertStatus(403);
+    }
 }
