@@ -24,4 +24,17 @@ class TaskAddLabelTest extends TestCase
         $this->assertEquals($task->labels[0]->label, 'china');
         $this->assertEquals($task->labels[1]->label, 'usa');
     }
+
+    public function testTaskAddLabelValidations(){
+        $this->auth();
+        $task = $this->createFakeTask();
+
+        $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id . '/add-label', [
+            'labels' => 'aa'
+        ]);
+        $response->assertStatus(422);
+
+        $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id . '/add-label');
+        $response->assertStatus(422);
+    }
 }
