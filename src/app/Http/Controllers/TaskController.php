@@ -3,6 +3,7 @@
 namespace TodoApp\app\Http\Controllers;
 
 use Illuminate\Http\Request;
+use TodoApp\app\Http\Requests\CreateTaskRequest;
 use TodoApp\app\Http\Requests\IndexTaskRequest;
 use TodoApp\app\Services\TaskInterface;
 
@@ -39,7 +40,7 @@ class TaskController
         return response()->json($task);
     }
 
-    public function store(Request $request){
+    public function store(CreateTaskRequest $request){
         $this->service->create(
             $request->all(),
             auth()->user()

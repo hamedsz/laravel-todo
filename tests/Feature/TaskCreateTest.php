@@ -46,7 +46,6 @@ class TaskCreateTest extends TestCase
         ]);
         $response->assertStatus(422);
 
-
         //title type
         $response = $this->json('POST', '/api/v1/todo/tasks/', [
             'title' => 11,
