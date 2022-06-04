@@ -152,7 +152,7 @@ class TaskTest extends \TodoApp\Tests\TestCase
                 'per_page' => self::PAGE_COUNT,
                 'to' => 1,
                 'total' => 1,
-                'data' => [$tasks[0]]
+                'data' => [$tasks[0]->toArray()]
             ]);
     }
 }
