@@ -157,4 +157,27 @@ class TaskTest extends \TodoApp\Tests\TestCase
                 'data' => [$tasks[0]->toArray()]
             ]);
     }
+
+    public function testIndexTasksParameterValidations(){
+        $this->auth();
+
+        $response = $this->json('GET', '/api/v1/todo/tasks', [
+            'page' => 'a'
+        ]);
+
+        $response->assertStatus(422);
+
+        $response = $this->json('GET', '/api/v1/todo/tasks', [
+            'labels' => 'aaa'
+        ]);
+        $response->assertStatus(422);
+
+
+        $response = $this->json('GET', '/api/v1/todo/tasks', [
+            'labels' => [
+                'aaa'
+            ]
+        ]);
+        $response->assertStatus(422);
+    }
 }
