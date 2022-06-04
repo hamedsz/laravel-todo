@@ -4,6 +4,7 @@ namespace TodoApp\app\Services;
 
 use TodoApp\app\Builders\TaskBuilder;
 use TodoApp\app\Builders\TaskBuilderInterface;
+use TodoApp\app\Models\Label;
 use TodoApp\app\Models\Task;
 use TodoApp\app\Models\User;
 
@@ -23,6 +24,22 @@ class TaskService implements TaskInterface
         if ($includeRelations){
             $task->load('labels');
         }
+
+        return $task;
+    }
+
+    public function addLabels(Task $task, array $labels){
+        foreach ($labels as $item){
+            $label = Label::add($item);
+            $task->labels()->sync($label->id, false);
+        }
+    }
+
+    public function create(array $data, User $user) : Task{
+        $task = new Task($data);
+        $task->user_id = $user->id;
+        $task->save();
+        $this->addLabels($task, $data['labels']);
 
         return $task;
     }

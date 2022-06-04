@@ -10,4 +10,6 @@ interface TaskInterface
 {
     public function builder() : TaskBuilderInterface;
     public function find($id, User $user, $includeRelations=true) : Task;
+    public function create(array $data, User $user) : Task;
+    public function addLabels(Task $task, array $labels);
 }

@@ -8,6 +8,11 @@ class Task extends Model
 {
     protected $table = 'todo_tasks';
 
+    protected $fillable = [
+        'title',
+        'description'
+    ];
+
     const STATUS_TASK_OPEN = 'open';
     const STATUS_TASK_CLOSE = 'close';
 

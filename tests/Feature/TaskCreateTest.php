@@ -26,14 +26,10 @@ class TaskCreateTest extends TestCase
         $task = Task::query()->first();
         $this->assertNotNull($task);
 
-        if (!$task){
-            return;
-        }
-
         $this->assertEquals($task->title, $data['title']);
         $this->assertEquals($task->description, $data['description']);
         $this->assertEquals($task->labels()->count(), count($data['labels']));
         $this->assertEquals($task->labels[0]->label, 'hamed');
-        $this->assertEquals($task->labels[0]->label, 'sz');
+        $this->assertEquals($task->labels[1]->label, 'sz');
     }
 }

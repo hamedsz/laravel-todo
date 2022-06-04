@@ -38,4 +38,13 @@ class TaskController
 
         return response()->json($task);
     }
+
+    public function store(Request $request){
+        $this->service->create(
+            $request->all(),
+            auth()->user()
+        );
+
+        return response()->noContent();
+    }
 }
