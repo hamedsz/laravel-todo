@@ -6,6 +6,7 @@
             "email": "badmansog@gmail.com"
         }
     ],
+    "license": "MIT",
     "require": {},
     "require-dev": {
         "orchestra/testbench": "5.x",
