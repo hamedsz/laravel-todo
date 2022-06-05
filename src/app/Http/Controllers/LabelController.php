@@ -23,4 +23,11 @@ class LabelController
             $builder->get()
         );
     }
+
+    public function store(Request $request){
+        $this->service
+            ->create($request->label, auth()->user());
+
+        return response()->noContent();
+    }
 }

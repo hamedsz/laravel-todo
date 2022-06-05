@@ -19,7 +19,8 @@ class Label extends Model
         return $this->belongsToMany(User::class, 'todo_label_user', 'label_id', 'user_id');
     }
 
-    public static function add($label, $userId){
+    public static function add($label, $userId) : Label{
+        /** @var Label $label */
         $label = Label::query()->where('label', $label)
             ->firstOrCreate([
                 'label' => $label

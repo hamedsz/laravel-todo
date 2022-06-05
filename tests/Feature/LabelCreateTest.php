@@ -22,4 +22,16 @@ class LabelCreateTest extends TestCase
 
         $this->assertEquals($label->label, $data['label']);
     }
+
+    public function testCreateValidations(){
+        $this->auth();
+
+        $response = $this->json('POST', '/api/v1/todo/labels', [
+            'label' => 111
+        ]);
+        $response->assertStatus(422);
+
+        $response = $this->json('POST', '/api/v1/todo/labels', []);
+        $response->assertStatus(422);
+    }
 }
