@@ -2,6 +2,7 @@
 
 namespace TodoApp\Tests\Feature;
 
+use TodoApp\app\Models\Notification;
 use TodoApp\app\Models\Task;
 use TodoApp\Tests\TestCase;
 
@@ -32,5 +33,20 @@ class TaskUpdateStatusTest extends TestCase
 
         $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id . '/update-status');
         $response->assertStatus(422);
+    }
+
+    public function testTaskUpdateStatusGeneratesNotification(){
+        $this->auth();
+        $task = $this->createFakeTask();
+
+        $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id . '/update-status', [
+            'status' => Task::STATUS_TASK_CLOSE
+        ]);
+        $response->assertStatus(204);
+
+        $notification = $task->notifications()->first();
+        $this->assertNotNull($notification, 'Notification is not generated.');
+
+        $this->assertEquals($notification->message, 'Task is closed');
     }
 }
