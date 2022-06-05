@@ -15,6 +15,6 @@ class TaskClosed extends Mailable
     }
 
     public function build(){
-        return $this->view('todo::test');
+        return $this->view('todo::notification');
     }
 }
