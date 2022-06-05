@@ -75,4 +75,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         }
         return $tasks;
     }
+    public function testBasic(){
+        $this->assertTrue(true);
+    }
 }

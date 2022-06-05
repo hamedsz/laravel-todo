@@ -10,6 +10,8 @@ use TodoApp\app\Http\Middleware\Authentication;
 use TodoApp\app\Listeners\NotificationCreatedListener;
 use TodoApp\app\Models\Task;
 use TodoApp\app\Policies\TaskPolicy;
+use TodoApp\app\Services\LabelInterface;
+use TodoApp\app\Services\LabelService;
 use TodoApp\app\Services\TaskInterface;
 use TodoApp\app\Services\TaskService;
 
@@ -26,6 +28,7 @@ class TodoServiceProvider extends ServiceProvider
         Gate::policy(Task::class, TaskPolicy::class);
 
         $this->app->bind(TaskInterface::class, TaskService::class);
+        $this->app->bind(LabelInterface::class, LabelService::class);
 
         Event::listen(NotificationCreatedEvent::class, NotificationCreatedListener::class);
     }
