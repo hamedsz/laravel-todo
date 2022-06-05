@@ -5,6 +5,7 @@ namespace TodoApp\app\Services;
 use TodoApp\app\Builders\TaskBuilder;
 use TodoApp\app\Builders\TaskBuilderInterface;
 use TodoApp\app\Models\Label;
+use TodoApp\app\Models\Notification;
 use TodoApp\app\Models\Task;
 use TodoApp\app\Models\User;
 
@@ -50,5 +51,6 @@ class TaskService implements TaskInterface
         $task = $this->find($taskId, $user);
         $task->status = $status;
         $task->save();
+        Notification::generate($task, 'Task is closed');
     }
 }
