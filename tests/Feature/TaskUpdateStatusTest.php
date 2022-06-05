@@ -2,6 +2,8 @@
 
 namespace TodoApp\Tests\Feature;
 
+use Illuminate\Support\Facades\Event;
+use TodoApp\app\Events\NotificationCreatedEvent;
 use TodoApp\app\Models\Notification;
 use TodoApp\app\Models\Task;
 use TodoApp\Tests\TestCase;
@@ -36,6 +38,8 @@ class TaskUpdateStatusTest extends TestCase
     }
 
     public function testTaskUpdateStatusGeneratesNotification(){
+        Event::fake();
+
         $this->auth();
         $task = $this->createFakeTask();
 
@@ -48,5 +52,6 @@ class TaskUpdateStatusTest extends TestCase
         $this->assertNotNull($notification, 'Notification is not generated.');
 
         $this->assertEquals($notification->message, 'Task is closed');
+        Event::assertDispatched(NotificationCreatedEvent::class);
     }
 }
