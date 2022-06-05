@@ -99,4 +99,28 @@ class LabelTest extends TestCase
                 'data' => $labels->skip(25)->take(5)->values()->toArray()
             ]);
     }
+
+    public function testContainsTotalTasks(){
+        $this->auth();
+
+        $label = $this->addLabel();
+
+        $response = $this->json('GET', '/api/v1/todo/labels');
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                "current_page" => 1,
+                'from' => 1,
+                'last_page' => 1,
+                'per_page' => self::PAGE_COUNT,
+                'to' => 1,
+                'total' => 1,
+                'data' => [
+                    [
+                        'tasks_count' => 0
+                    ]
+                ]
+            ]);
+    }
 }
