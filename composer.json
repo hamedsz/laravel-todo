@@ -22,12 +22,5 @@
             "TodoApp\\Tests\\": "./tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "TodoApp\\TodoServiceProvider"
-            ]
-        }
-    },
     "minimum-stability": "dev"
 }
