@@ -2,7 +2,7 @@
 
 namespace TodoApp\Tests\Feature;
 
-use TodoApp\app\Models\Task;
+use TodoApp\app\Models\Label;
 use TodoApp\Tests\TestCase;
 
 class TaskAddLabelTest extends TestCase
@@ -11,10 +11,13 @@ class TaskAddLabelTest extends TestCase
         $this->auth();
         $task = $this->createFakeTask();
 
+        $label1 = Label::add('china', $this->user->id);
+        $label2 = Label::add('usa', $this->user->id);
+
         $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id . '/add-label', [
             'labels' => [
-                'china',
-                'usa'
+                $label1->id,
+                $label2->id
             ]
         ]);
 

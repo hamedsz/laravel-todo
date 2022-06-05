@@ -25,7 +25,7 @@ class AddLabelTaskRequest extends FormRequest
     {
         return [
             'labels' => ['required', 'array'],
-            'labels.*' => ['required', 'string'],
+            'labels.*' => ['required', 'exists:todo_labels,id'],
         ];
     }
 }

@@ -29,17 +29,13 @@ class TaskService implements TaskInterface
     }
 
     public function addLabels(Task $task, array $labels){
-        foreach ($labels as $item){
-            $label = Label::add($item);
-            $task->labels()->sync($label->id, false);
-        }
+        $task->labels()->sync($labels, false);
     }
 
     public function create(array $data, User $user) : Task{
         $task = new Task($data);
         $task->user_id = $user->id;
         $task->save();
-        $this->addLabels($task, $data['labels']);
 
         return $task;
     }

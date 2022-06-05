@@ -119,7 +119,7 @@ class IndexTaskTest extends TestCase
         $this->auth();
         $tasks = $this->createFakeTasks(5);
 
-        $label = \TodoApp\app\Models\Label::add('test');
+        $label = \TodoApp\app\Models\Label::add('test', $this->user->id);
         $tasks[0]->labels()->sync([$label->id], false);
 
         $response = $this->json('GET', '/api/v1/todo/tasks', [
@@ -172,7 +172,7 @@ class IndexTaskTest extends TestCase
         $this->auth();
         $tasks = $this->createFakeTasks(5);
 
-        $label = \TodoApp\app\Models\Label::add('test');
+        $label = \TodoApp\app\Models\Label::add('test', $this->user->id);
         $tasks[0]->labels()->sync([$label->id], false);
         $tasks[0]->load('labels');
 

@@ -12,11 +12,7 @@ class TaskCreateTest extends TestCase
 
         $data = [
             'title' => 'hello',
-            'description' => 'hi',
-            'labels' => [
-                'hamed',
-                'sz'
-            ]
+            'description' => 'hi'
         ];
 
         $response = $this->json('POST', '/api/v1/todo/tasks/', $data);
@@ -28,9 +24,6 @@ class TaskCreateTest extends TestCase
 
         $this->assertEquals($task->title, $data['title']);
         $this->assertEquals($task->description, $data['description']);
-        $this->assertEquals($task->labels()->count(), count($data['labels']));
-        $this->assertEquals($task->labels[0]->label, 'hamed');
-        $this->assertEquals($task->labels[1]->label, 'sz');
     }
 
     public function testCreateTaskValidations(){
@@ -39,21 +32,13 @@ class TaskCreateTest extends TestCase
         //required title
         $response = $this->json('POST', '/api/v1/todo/tasks/', [
             'description' => 'hi',
-            'labels' => [
-                'hamed',
-                'sz'
-            ]
         ]);
         $response->assertStatus(422);
 
         //title type
         $response = $this->json('POST', '/api/v1/todo/tasks/', [
             'title' => 11,
-            'description' => 'hi',
-            'labels' => [
-                'hamed',
-                'sz'
-            ]
+            'description' => 'hi'
         ]);
         $response->assertStatus(422);
 
@@ -61,18 +46,6 @@ class TaskCreateTest extends TestCase
         $response = $this->json('POST', '/api/v1/todo/tasks/', [
             'title' => 'aaaa',
             'description' => 111,
-            'labels' => [
-                'hamed',
-                'sz'
-            ]
-        ]);
-        $response->assertStatus(422);
-
-        //labels type
-        $response = $this->json('POST', '/api/v1/todo/tasks/', [
-            'title' => 'aaaa',
-            'description' => 111,
-            'labels' => 'aaaa'
         ]);
         $response->assertStatus(422);
     }
