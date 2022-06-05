@@ -4,7 +4,7 @@ namespace TodoApp\app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTaskRequest extends FormRequest
+class CreateLabelRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class CreateTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string'],
-            'description' => ['nullable', 'string'],
+            'label' => ['required', 'string'],
         ];
     }
 }

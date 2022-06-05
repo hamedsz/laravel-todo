@@ -3,6 +3,7 @@
 namespace TodoApp\app\Http\Controllers;
 
 use Illuminate\Http\Request;
+use TodoApp\app\Http\Requests\CreateLabelRequest;
 use TodoApp\app\Services\LabelInterface;
 
 class LabelController
@@ -24,7 +25,7 @@ class LabelController
         );
     }
 
-    public function store(Request $request){
+    public function store(CreateLabelRequest $request){
         $this->service
             ->create($request->label, auth()->user());
 
