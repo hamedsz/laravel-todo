@@ -3,7 +3,9 @@
 namespace TodoApp\Tests\Feature;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use TodoApp\app\Events\NotificationCreatedEvent;
+use TodoApp\app\Mail\TaskClosed;
 use TodoApp\app\Models\Notification;
 use TodoApp\app\Models\Task;
 use TodoApp\Tests\TestCase;
@@ -39,6 +41,7 @@ class TaskUpdateStatusTest extends TestCase
 
     public function testTaskUpdateStatusGeneratesNotification(){
         Event::fake();
+        Mail::fake();
 
         $this->auth();
         $task = $this->createFakeTask();
@@ -53,5 +56,6 @@ class TaskUpdateStatusTest extends TestCase
 
         $this->assertEquals($notification->message, 'Task is closed');
         Event::assertDispatched(NotificationCreatedEvent::class);
+        Mail::assertSent(TaskClosed::class);
     }
 }
