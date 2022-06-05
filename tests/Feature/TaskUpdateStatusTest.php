@@ -13,6 +13,10 @@ use TodoApp\Tests\TestCase;
 class TaskUpdateStatusTest extends TestCase
 {
     public function testTaskUpdateStatus(){
+        Event::fake();
+        Mail::fake();
+
+        $this->withoutExceptionHandling();
         $this->auth();
         $task = $this->createFakeTask();
 
@@ -41,7 +45,6 @@ class TaskUpdateStatusTest extends TestCase
 
     public function testTaskUpdateStatusGeneratesNotification(){
         Event::fake();
-        Mail::fake();
 
         $this->auth();
         $task = $this->createFakeTask();
@@ -56,6 +59,18 @@ class TaskUpdateStatusTest extends TestCase
 
         $this->assertEquals($notification->message, 'Task is closed');
         Event::assertDispatched(NotificationCreatedEvent::class);
+    }
+    public function testTaskUpdateStatusNotificationEmail(){
+        Mail::fake();
+
+        $this->auth();
+        $task = $this->createFakeTask();
+
+        $response = $this->json('PUT', '/api/v1/todo/tasks/'. $task->id . '/update-status', [
+            'status' => Task::STATUS_TASK_CLOSE
+        ]);
+        $response->assertStatus(204);
+
         Mail::assertSent(TaskClosed::class);
     }
 }

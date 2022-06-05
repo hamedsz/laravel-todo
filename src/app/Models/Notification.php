@@ -13,11 +13,20 @@ class Notification extends Model
         'created' => NotificationCreatedEvent::class
     ];
 
-    public static function generate($notifable , $message){
+    public static function generate($notifable , $message, User $user){
         $notif = new Notification();
         $notif->notificationable_id = $notifable->id;
         $notif->notificationable_type = get_class($notifable);
         $notif->message = $message;
+        $notif->user_id = $user->id;
         $notif->save();
+    }
+
+    public function notificationable(){
+        return $this->morphTo();
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

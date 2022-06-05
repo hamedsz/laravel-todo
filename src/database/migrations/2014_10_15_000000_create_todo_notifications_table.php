@@ -16,6 +16,7 @@ class CreateTodoNotificationsTable extends Migration
     {
         Schema::create('todo_notifications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->index();
 
             $table->string('notificationable_type')->index();
             $table->unsignedBigInteger('notificationable_id')->index();

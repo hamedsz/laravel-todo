@@ -51,6 +51,6 @@ class TaskService implements TaskInterface
         $task = $this->find($taskId, $user);
         $task->status = $status;
         $task->save();
-        Notification::generate($task, 'Task is closed');
+        Notification::generate($task, 'Task is closed', $user);
     }
 }

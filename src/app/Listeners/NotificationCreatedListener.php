@@ -2,6 +2,10 @@
 
 namespace TodoApp\app\Listeners;
 
+use Illuminate\Support\Facades\Mail;
+use TodoApp\app\Events\NotificationCreatedEvent;
+use TodoApp\app\Mail\TaskClosed;
+
 class NotificationCreatedListener
 {
     /**
@@ -20,8 +24,8 @@ class NotificationCreatedListener
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle(NotificationCreatedEvent $event)
     {
-        //
+        Mail::to($event->notification->user->email)->send(new TaskClosed());
     }
 }
