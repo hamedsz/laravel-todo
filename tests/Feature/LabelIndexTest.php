@@ -123,4 +123,60 @@ class LabelTest extends TestCase
                 ]
             ]);
     }
+
+    public function testContainsTotalTasksWithOneTask(){
+        $this->auth();
+
+        $label = $this->addLabel();
+        $task = $this->createFakeTask();
+        $task->labels()->sync($label->id);
+
+
+        $response = $this->json('GET', '/api/v1/todo/labels');
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                "current_page" => 1,
+                'from' => 1,
+                'last_page' => 1,
+                'per_page' => self::PAGE_COUNT,
+                'to' => 1,
+                'total' => 1,
+                'data' => [
+                    [
+                        'tasks_count' => 1
+                    ]
+                ]
+            ]);
+    }
+
+    public function testContainsTotalTasksNotContainsOtherUserTasks(){
+        $this->auth();
+
+        $label = $this->addLabel();
+
+        $user = $this->createFakeUser();
+        $task = $this->createFakeTask($user->id);
+        $task->labels()->sync($label->id);
+
+
+        $response = $this->json('GET', '/api/v1/todo/labels');
+
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                "current_page" => 1,
+                'from' => 1,
+                'last_page' => 1,
+                'per_page' => self::PAGE_COUNT,
+                'to' => 1,
+                'total' => 1,
+                'data' => [
+                    [
+                        'tasks_count' => 0
+                    ]
+                ]
+            ]);
+    }
 }
