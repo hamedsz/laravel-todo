@@ -7,7 +7,9 @@
         }
     ],
     "license": "MIT",
-    "require": {},
+    "require": {
+        "php": ">=7.0.0"
+    },
     "require-dev": {
         "orchestra/testbench": "5.x",
         "phpunit/phpunit": "^9.5"
@@ -28,6 +30,5 @@
                 "TodoApp\\TodoServiceProvider"
             ]
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
