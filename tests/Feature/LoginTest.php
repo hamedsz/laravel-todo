@@ -18,4 +18,20 @@ class LoginTest extends TestCase
             'user' => $user->toArray()
         ]);
     }
+
+    public function testLoginFailed(){
+        $user = $this->createFakeUser();
+
+        $response = $this->json('POST', '/api/v1/auth/login', [
+            'email' => $user->email,
+            'password' => 'abcd',
+        ]);
+        $response->assertStatus(422);
+
+        $response = $this->json('POST', '/api/v1/auth/login', [
+            'email' => 'adwa@mail.com',
+            'password' => 'password',
+        ]);
+        $response->assertStatus(422);
+    }
 }
