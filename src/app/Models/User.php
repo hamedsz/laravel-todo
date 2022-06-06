@@ -8,6 +8,10 @@ class User extends Authenticatable
 {
     protected $table = 'todo_users';
 
+    protected $fillable = [
+        'name'
+    ];
+
     public function tasks(){
         return $this->hasMany(Task::class, 'user_id');
     }

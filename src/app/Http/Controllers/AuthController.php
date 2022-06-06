@@ -19,4 +19,10 @@ class AuthController
 
         return response()->json($login);
     }
+
+    public function signup(Request $request){
+        $signup = $this->service->signup($request->email, $request->password, $request->all());
+
+        return response()->json($signup);
+    }
 }

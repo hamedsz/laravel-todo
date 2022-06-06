@@ -28,9 +28,33 @@ class UserService implements UserInterface
             ]);
         }
 
+        return $this->authResponse($user);
+    }
+    public function make(array $data) : User{
+        return new User($data);
+    }
+
+    public function authResponse(User $user){
         return [
             'user' => $user,
             'token' => $this->getToken($user)
         ];
+    }
+
+    public function signup(string $email, string $password, array $data=[]) : array{
+        $isEmailExists = User::query()->where('email', $email)->first();
+
+        if ($isEmailExists){
+            throw ValidationException::withMessages([
+                'email' => 'email is used before'
+            ]);
+        }
+
+        $user = $this->make($data);
+        $user->email = $email;
+        $user->password = bcrypt($password);
+        $user->save();
+
+        return $this->authResponse($user);
     }
 }

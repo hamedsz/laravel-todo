@@ -8,7 +8,7 @@ Route::group(['prefix' => '/api/v1/todo'], function (){
 
     Route::group(['prefix' => '/auth'], function (){
         Route::post('/login', [\TodoApp\app\Http\Controllers\AuthController::class, 'login']);
-        Route::post('/signup');
+        Route::post('/signup' , [\TodoApp\app\Http\Controllers\AuthController::class, 'signup']);
     });
 
     Route::group(['middleware' => ['todo-auth']], function (){
