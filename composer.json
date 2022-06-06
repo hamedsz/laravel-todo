@@ -8,7 +8,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php": ">=7.0.0"
+        "php": ">=7.0.0",
+        "laravel/framework": "^7.0"
     },
     "require-dev": {
         "orchestra/testbench": "5.x",
@@ -30,5 +31,8 @@
                 "TodoApp\\TodoServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "phpunit": "vendor/bin/phpunit"
     }
 }
