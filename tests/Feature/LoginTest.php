@@ -2,7 +2,20 @@
 
 namespace TodoApp\Tests\Feature;
 
-class LoginTest
-{
+use TodoApp\Tests\TestCase;
 
+class LoginTest extends TestCase
+{
+    public function testLogin(){
+        $user = $this->createFakeUser();
+
+        $response = $this->json('POST', '/api/v1/auth/login', [
+            'email' => $user->email,
+            'password' => $user->password,
+        ]);
+        $response->assertStatus(200)
+        ->assertJson([
+            'user' => $user->toArray()
+        ]);
+    }
 }
