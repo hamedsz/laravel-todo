@@ -7,7 +7,6 @@ use TodoApp\Tests\TestCase;
 class LoginTest extends TestCase
 {
     public function testLogin(){
-        $this->withoutExceptionHandling();
         $user = $this->createFakeUser();
 
         $response = $this->json('POST', '/api/v1/todo/auth/login', [
