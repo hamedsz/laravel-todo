@@ -30,5 +30,6 @@
                 "TodoApp\\TodoServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
