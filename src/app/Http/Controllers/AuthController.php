@@ -3,6 +3,7 @@
 namespace TodoApp\app\Http\Controllers;
 
 use Illuminate\Http\Request;
+use TodoApp\app\Http\Requests\SignupRequest;
 use TodoApp\app\Services\UserInterface;
 
 class AuthController
@@ -20,7 +21,7 @@ class AuthController
         return response()->json($login);
     }
 
-    public function signup(Request $request){
+    public function signup(SignupRequest $request){
         $signup = $this->service->signup($request->email, $request->password, $request->all());
 
         return response()->json($signup);
