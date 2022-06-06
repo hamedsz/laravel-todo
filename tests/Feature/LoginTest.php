@@ -32,6 +32,6 @@ class LoginTest extends TestCase
             'email' => 'adwa@mail.com',
             'password' => 'password',
         ]);
-        $response->assertStatus(404);
+        $response->assertStatus(422);
     }
 }

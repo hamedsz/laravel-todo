@@ -9,10 +9,11 @@ use TodoApp\app\Models\User;
 
 class UserService implements UserInterface
 {
-    public function findByEmail(string $email) : User{
-        return User::query()
-            ->where('email', $email)
-            ->firstOrFail();
+    public function findByEmail(string $email, bool $kill=true) : ?User{
+        $user = User::query()
+            ->where('email', $email);
+
+        return $kill ? $user->firstOrFail() : $user->first();
     }
 
     public function getToken(User $user) : string{
@@ -20,9 +21,9 @@ class UserService implements UserInterface
     }
 
     public function login(string $email, $password) : array{
-        $user = $this->findByEmail($email);
+        $user = $this->findByEmail($email, false);
 
-        if (!Hash::check($password, $user->password)){
+        if (!$user || !Hash::check($password, $user->password)){
             throw ValidationException::withMessages([
                 'login' => 'incorrect username or password'
             ]);
@@ -42,7 +43,7 @@ class UserService implements UserInterface
     }
 
     public function signup(string $email, string $password, array $data=[]) : array{
-        $isEmailExists = User::query()->where('email', $email)->first();
+        $isEmailExists = $this->findByEmail($email, false);
 
         if ($isEmailExists){
             throw ValidationException::withMessages([

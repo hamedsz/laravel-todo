@@ -6,7 +6,7 @@ use TodoApp\app\Models\User;
 
 interface UserInterface
 {
-    public function findByEmail(string $email) : User;
+    public function findByEmail(string $email, bool $kill=true) : ?User;
     public function login(string $email, $password) : array;
     public function getToken(User $user) : string;
     public function make(array $data) : User;
