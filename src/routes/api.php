@@ -7,7 +7,7 @@ Route::group(['prefix' => '/api/v1/todo'], function (){
     Route::get('/test', [\App\Http\Controllers\Controller::class, 'test']);
 
     Route::group(['prefix' => '/auth'], function (){
-        Route::post('/login');
+        Route::post('/login', [\TodoApp\app\Http\Controllers\AuthController::class, 'login']);
         Route::post('/signup');
     });
 

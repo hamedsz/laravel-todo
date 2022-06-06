@@ -7,11 +7,12 @@ use TodoApp\Tests\TestCase;
 class LoginTest extends TestCase
 {
     public function testLogin(){
+        $this->withoutExceptionHandling();
         $user = $this->createFakeUser();
 
-        $response = $this->json('POST', '/api/v1/auth/login', [
+        $response = $this->json('POST', '/api/v1/todo/auth/login', [
             'email' => $user->email,
-            'password' => $user->password,
+            'password' => 'password',
         ]);
         $response->assertStatus(200)
         ->assertJson([
@@ -22,16 +23,16 @@ class LoginTest extends TestCase
     public function testLoginFailed(){
         $user = $this->createFakeUser();
 
-        $response = $this->json('POST', '/api/v1/auth/login', [
+        $response = $this->json('POST', '/api/v1/todo/auth/login', [
             'email' => $user->email,
             'password' => 'abcd',
         ]);
         $response->assertStatus(422);
 
-        $response = $this->json('POST', '/api/v1/auth/login', [
+        $response = $this->json('POST', '/api/v1/todo/auth/login', [
             'email' => 'adwa@mail.com',
             'password' => 'password',
         ]);
-        $response->assertStatus(422);
+        $response->assertStatus(404);
     }
 }

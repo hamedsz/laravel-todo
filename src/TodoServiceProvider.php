@@ -14,6 +14,8 @@ use TodoApp\app\Services\LabelInterface;
 use TodoApp\app\Services\LabelService;
 use TodoApp\app\Services\TaskInterface;
 use TodoApp\app\Services\TaskService;
+use TodoApp\app\Services\UserInterface;
+use TodoApp\app\Services\UserService;
 
 class TodoServiceProvider extends ServiceProvider
 {
@@ -29,6 +31,7 @@ class TodoServiceProvider extends ServiceProvider
 
         $this->app->bind(TaskInterface::class, TaskService::class);
         $this->app->bind(LabelInterface::class, LabelService::class);
+        $this->app->bind(UserInterface::class, UserService::class);
 
         Event::listen(NotificationCreatedEvent::class, NotificationCreatedListener::class);
     }
